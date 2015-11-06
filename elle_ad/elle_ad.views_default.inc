@@ -27,6 +27,7 @@ function elle_ad_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = '重設';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -211,11 +212,63 @@ else{
   $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
     'before-access' => 'before-access',
   );
+
+  /* Display: 文章320x50 */
+  $handler = $view->new_display('block', '文章320x50', 'block_5');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    '320x50' => '320x50',
+  );
+
+  /* Display: 文章320x480 */
+  $handler = $view->new_display('block', '文章320x480', 'block_6');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    '320x480' => '320x480',
+  );
   $translatables['ad_article_block'] = array(
     t('Master'),
     t('more'),
     t('Apply'),
-    t('Reset'),
+    t('重設'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
@@ -225,6 +278,8 @@ else{
     t('橫向廣告1'),
     t('橫向廣告2'),
     t('文章進站前'),
+    t('文章320x50'),
+    t('文章320x480'),
   );
   $export['ad_article_block'] = $view;
 
@@ -523,6 +578,37 @@ else{
     'hr-ad1' => 'hr-ad1',
   );
 
+  /* Display: DECOR進站前 */
+  $handler = $view->new_display('block', 'DECOR進站前', 'block_31');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: 發佈頁面 (field_ad_position) */
+  $handler->display->display_options['filters']['field_ad_position_target_id']['id'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['table'] = 'field_data_field_ad_position';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['field'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['value']['value'] = '17';
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    'before-access' => 'before-access',
+  );
+
   /* Display: GIRL右側1 */
   $handler = $view->new_display('block', 'GIRL右側1', 'block_8');
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -645,6 +731,37 @@ else{
   $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
   $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
     'hr-ad1' => 'hr-ad1',
+  );
+
+  /* Display: GIRL進站前 */
+  $handler = $view->new_display('block', 'GIRL進站前', 'block_30');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: 發佈頁面 (field_ad_position) */
+  $handler->display->display_options['filters']['field_ad_position_target_id']['id'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['table'] = 'field_data_field_ad_position';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['field'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['value']['value'] = '16';
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    'before-access' => 'before-access',
   );
 
   /* Display: WEDDING右側1 */
@@ -771,6 +888,37 @@ else{
     'hr-ad1' => 'hr-ad1',
   );
 
+  /* Display: WEDDING進站前 */
+  $handler = $view->new_display('block', 'WEDDING進站前', 'block_32');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: 發佈頁面 (field_ad_position) */
+  $handler->display->display_options['filters']['field_ad_position_target_id']['id'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['table'] = 'field_data_field_ad_position';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['field'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['value']['value'] = '28';
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    'before-access' => 'before-access',
+  );
+
   /* Display: ACCESSORY右側1 */
   $handler = $view->new_display('block', 'ACCESSORY右側1', 'block_16');
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -893,6 +1041,37 @@ else{
   $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
   $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
     'hr-ad1' => 'hr-ad1',
+  );
+
+  /* Display: ACCESSORY進站前 */
+  $handler = $view->new_display('block', 'ACCESSORY進站前', 'block_29');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: 發佈頁面 (field_ad_position) */
+  $handler->display->display_options['filters']['field_ad_position_target_id']['id'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['table'] = 'field_data_field_ad_position';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['field'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['value']['value'] = '29';
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    'before-access' => 'before-access',
   );
 
   /* Display: TV右側1 */
@@ -1173,6 +1352,37 @@ else{
   $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
     'article-2' => 'article-2',
   );
+
+  /* Display: 專欄作家進站前 */
+  $handler = $view->new_display('block', '專欄作家進站前', 'block_33');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nodeblock' => 'nodeblock',
+  );
+  /* Filter criterion: Content: 發佈頁面 (field_ad_position) */
+  $handler->display->display_options['filters']['field_ad_position_target_id']['id'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['table'] = 'field_data_field_ad_position';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['field'] = 'field_ad_position_target_id';
+  $handler->display->display_options['filters']['field_ad_position_target_id']['value']['value'] = '525';
+  /* Filter criterion: Content: Location (field_ad_number) */
+  $handler->display->display_options['filters']['field_ad_number_value']['id'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['table'] = 'field_data_field_ad_number';
+  $handler->display->display_options['filters']['field_ad_number_value']['field'] = 'field_ad_number_value';
+  $handler->display->display_options['filters']['field_ad_number_value']['value'] = array(
+    'before-access' => 'before-access',
+  );
   $translatables['ad_block'] = array(
     t('Master'),
     t('more'),
@@ -1189,18 +1399,22 @@ else{
     t('DECOR右側2'),
     t('DECOR右側3'),
     t('DECOR橫向1'),
+    t('DECOR進站前'),
     t('GIRL右側1'),
     t('GIRL右側2'),
     t('GIRL右側3'),
     t('GIRL橫向1'),
+    t('GIRL進站前'),
     t('WEDDING右側1'),
     t('WEDDING右側2'),
     t('WEDDING右側3'),
     t('WEDDING橫向1'),
+    t('WEDDING進站前'),
     t('ACCESSORY右側1'),
     t('ACCESSORY右側2'),
     t('ACCESSORY右側3'),
     t('ACCESSORY橫向1'),
+    t('ACCESSORY進站前'),
     t('TV右側1'),
     t('TV右側2'),
     t('專欄作家橫向1'),
@@ -1210,6 +1424,7 @@ else{
     t('線上活動右側1'),
     t('線上活動文章右側1'),
     t('線上活動文章右側2'),
+    t('專欄作家進站前'),
   );
   $export['ad_block'] = $view;
 
