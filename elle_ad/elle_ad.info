@@ -1,0 +1,13 @@
+name = ELLE Views
+description = ELLE網站廣告區塊
+core = 7.x
+package = HelloSanta Drupal Module
+version = 7.x-1.0
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = ad_article_block
+features[views_view][] = ad_block
+features[views_view][] = ad_folder_banner
+features[views_view][] = ad_special
+features_exclude[dependencies][ctools] = ctools

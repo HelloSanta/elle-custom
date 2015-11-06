@@ -1,0 +1,8 @@
+<?php
+
+function elle_sso_install()
+{	
+
+}
+
+?>

@@ -1,0 +1,15 @@
+name=ELLE SSO Module
+description=ELLE SSO Module created by Victor
+package=Hellosanta Module
+core=7.x
+
+files[]=elle_sso.install
+files[]=elle_sso.info
+files[]=elle_sso.module
+
+
+; Information added by HelloSanta Engineer Victor Yang
+version = "7.x-1.1"
+core = "7.x"
+project = "Hellosanta"
+

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the 公司資訊＋聯絡我們 feature.
+ */
+
+include_once 'company_webform.features.inc';

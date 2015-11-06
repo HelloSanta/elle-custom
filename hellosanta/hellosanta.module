@@ -1,0 +1,122 @@
+<?php
+
+//將/node這個頁面讓他變成not-found
+function hellosanta_menu_alter(&$items) {
+    $items['node']['page callback'] = 'drupal_not_found';
+}
+
+
+
+function hellosanta_form_alter(&$form, &$form_state, $form_id){	
+	
+  
+}	
+
+function hellosanta_block_info(){
+  $blocks['elle_instagram'] = array(
+      'info' => t('ELLE Instagram Block'),
+      // Default setting.
+      'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+function hellosanta_block_view($delta = '') {
+  $block=array();
+  if($delta=='elle_instagram'){
+    $block['subject']=t('ELLE INSTAGRAM');
+    
+    $api_url='https://api.instagram.com/v1/users/456030220/media/recent/?client_id=136e8aa457734e89bf416d01ddcc634d';
+
+    $result=drupal_http_request($api_url);
+    $result=drupal_json_decode($result->data);
+    $data=$result['data'];
+    $content="<ul class='instagram-list'>";
+
+    foreach($data as $key => $value){
+  
+      if($key==3){
+        break;
+      }
+      $insta_block="<li class='instagram-block'><div class='list-wrapper'>
+      <div class='insta-images'><img src='".$value['images']['low_resolution']['url']."'/></div><div class='user-profile fa fa-instagram'>".$value['user']['full_name']."</div><div class='likes-count fa fa-heart'>".$value['likes']['count']."</div><div class='description'>".$value['caption']['text']."</div><a class='read-more' href='".$value['link']."' target='_blank'>more</a>
+      </div></li>";
+      $content=$content.$insta_block;
+    }
+    $content=$content.'</ul>';
+    $block['content']=$content;
+
+    return $block;
+  }
+}
+
+/**
+ * Implements hook_nodequeue_info().
+ */
+function hellosanta_nodequeue_info() {
+  return array('folder_taxonomy_hot_article_queue' => array(
+      'title' => t('頻道Queue'),
+      'description' => t('每一個Queue，都有多個Subqueue，每個Subqueue是以Taxonomy ID來做區分。'),
+    ));
+}
+
+/**
+ * Creates the top advice block queue and subqueues.
+ */
+function hellosanta_build_folder_taxonomy_nodequeues() {
+ 
+  // Create the primary nodequeue
+  $qid = db_insert('nodequeue_queue')
+    ->fields(array(
+        'name'  => 'folder_taxonomy_hot_article_queue',
+        'title' => t('頻道頁面熱門文章'),
+        'size'  => 6,
+        'owner' => 'hellosanta',
+        'subqueue_title' => '',
+      ))
+    ->execute();
+ 
+  // Limit the types that can be selected
+  $types = array('article', 'free_article');
+  foreach ($types as $type) {
+    db_insert('nodequeue_types')
+      ->fields(array(
+          'qid'  => $qid,
+          'type' => $type,
+        ))
+      ->execute();
+  }
+ 
+  /*目前的頻道頁面*/
+
+  $folder_array=array(
+    '4' =>'流行時尚',
+    '7' =>'美容保養',
+    '10'=>'健康樂活',
+    '47'=>'娛樂名人',
+    '54'=>'愛情趨勢',
+    '59'=>'品味生活',
+    '65'=>'職場魅力',
+    '71'=>'職場SHOPPING',
+    '77'=>'專題企畫',
+    '78'=>'編輯手記',
+    '80'=>'專欄作家',
+    '79'=>'贈品活動',
+    );
+
+
+  /*目前的頻道頁面*/
+
+  foreach ($folder_array as $type => $name) {
+    db_insert('nodequeue_subqueue')
+      ->fields(array(
+          'qid'       => $qid,
+          'reference' => $type,
+          'title'     => "$name 熱門文章",
+    ))
+    ->execute();
+  }
+}
+
+
+?>

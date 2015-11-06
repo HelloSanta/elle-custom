@@ -1,0 +1,174 @@
+<?php
+
+/**
+ * Implements hook_form_alter()
+ * 這裏要處理Elle網站登入問題
+ */
+
+function elle_sso_form_alter(&$form, &$form_state, $form_id){
+
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    $form['#validate'] = array(
+      'user_login_name_validate',
+      'elle_sso_login_validate',
+      'user_login_final_validate'
+    );
+    $form['#form_placeholder'] = TRUE;
+  }
+  elseif($form_id=="user_register_form" && arg(0)!='admin'){
+
+    $form['#form_placeholder'] = TRUE;
+  }
+}
+
+
+/**
+針對user update資料時，將生日撰寫到各個欄位
+ **/
+function elle_sso_user_presave(&$edit, $account, $category){
+  $birth=$edit['field_birth']['und'][0]['value'];
+  $edit['field_year']['und'][0]['value']=Date('Y',strtotime($birth));
+  $edit['field_month']['und'][0]['value']=Date('m',strtotime($birth));
+  $edit['field_day']['und'][0]['value']=Date('d',strtotime($birth));
+
+}
+
+
+/**
+ * Login form validation callback.
+ */
+function elle_sso_login_validate(&$form, &$form_state){
+  $username = $form_state['values']['name'];
+  $password = $form_state['values']['pass'];
+
+  $user=user_load_by_name($username);
+
+
+  //確認帳號密碼是否正確
+  if ( _elle_log_in_user( $username, $password ) ) {
+    $form_state['uid'] = _elle_log_in_user( $username, $password );
+    return;
+  }
+  elseif(!empty($user)){
+    watchdog( 'elle_sso', 'authentication error', array(), WATCHDOG_NOTICE );
+    return;
+  }
+
+  $login_result = _elle_authenticate_against_onekes( $username, $password );
+
+  if($login_result){
+    $form_state['uid'] = $login_result;
+  }
+  else{
+    watchdog( 'elle_sso', 'authentication error', array(), WATCHDOG_NOTICE );
+  }
+}
+
+/**
+ * 確認是否在Drupal站上有帳號，若有帳號直接登入，沒有帳號則去搜尋ucenter
+ */
+function _elle_log_in_user( $username, $password ) {
+
+  $uid = module_invoke( 'user', 'authenticate', $username, $password );
+  if(!empty($uid)){
+    return $uid;
+  }
+
+  return FALSE;
+}
+
+
+/**
+ * 檢測在Ucenter裡面是否有帳號
+ *
+ * @return
+ *   The result object from the authentication check, or NULL on error.
+ */
+function _elle_authenticate_against_onekes( $username, $password ) {
+
+
+  /**重要參數設定**/
+  $option='login';
+  $login=$username;
+  $pass=$password;
+  $url='http://event.elle.com.tw/event/SSO/sso.php';
+  $data='option='.$option.'&login='.$login.'&password='.$pass;
+
+  /**重要參數設定**/
+
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  $strReturn = curl_exec($ch);
+  curl_close($ch);
+
+  $result=drupal_json_decode($strReturn);
+  $status=$result['status'];
+  if($status){
+
+    //本網站內沒有此Drupal帳號，需要重建一個Drupal帳號
+    $account=$result['login'];
+    $result=$result['data'];
+    $email=$result[0]['active_email'];
+    $fullname=$result[0]['fullname'];
+    $num_identity=$result[0]['num_identity'];
+    $address=$result[0]['address'];
+    $sex=$result[0]['sex'];
+    $birth=$result[0]['birthdate'];
+    $hand_phone=$result[0]['handphone_number'];
+
+    if($result[0]['newsletter']==1){
+      $newsletter=1;
+    }
+    else{
+      $newsletter=0;
+    }
+
+    if($result[0]['ellefriend']==1){
+      $ellefriend=1;
+    }
+    else{
+      $ellefriend=0;
+    }
+
+
+
+    $userinfo = array(
+      'name' => $account,
+      'pass' => $password,
+      'mail' => $email,
+      'init' => $email,
+      'status' => 1,
+      'timezone'=>'Asia/Taipei',
+      'language'=>'zh-hant',
+    );
+    $userinfo['field_fullname']['und'][0]['value']=$fullname;
+    $userinfo['field_num_identity']['und'][0]['value']=$num_identity;
+    $userinfo['field_address']['und'][0]['value']=$address;
+    $userinfo['field_sex']['und'][0]['value']=$sex;
+    $userinfo['field_newsletter']['und'][0]['value']=$newsletter;
+    $userinfo['field_ellefriend']['und'][0]['value']=$ellefriend;
+    $userinfo['field_birth']['und'][0]['value']=Date('Y-m-d',strtotime($birth));
+    $userinfo['field_year']['und'][0]['value']=Date('Y',strtotime($birth));
+    $userinfo['field_month']['und'][0]['value']=Date('m',strtotime($birth));
+    $userinfo['field_day']['und'][0]['value']=Date('d',strtotime($birth));
+    $userinfo['field_handphone_number']['und'][0]['value']=$hand_phone;
+
+
+    $account = user_save('', $userinfo);
+
+    $uid=$account->uid;
+
+    return $uid;
+  }
+  else{
+    return false;
+  }
+}
+
+
+?>

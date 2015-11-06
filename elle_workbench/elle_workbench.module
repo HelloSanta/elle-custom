@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the elle workbench feature.
+ */
+
+include_once 'elle_workbench.features.inc';

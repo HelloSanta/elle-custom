@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ELLE Views feature.
+ */
+
+include_once 'elle_ad.features.inc';

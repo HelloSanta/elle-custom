@@ -1,0 +1,17 @@
+name = elle workbench
+description = ELLE控制後台
+core = 7.x
+package = HelloSanta Drupal Module
+version = 7.x-1.2-beta1
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = workbench_ad_list
+features[views_view][] = workbench_editor
+features[views_view][] = workbench_elle_shopping
+features[views_view][] = workbench_elle_tv
+features[views_view][] = workbench_event
+features[views_view][] = workbench_fad
+features[views_view][] = workbench_free_article
+features[views_view][] = workbench_new_dossier
